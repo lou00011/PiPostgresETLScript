@@ -12,12 +12,8 @@ def read_csv_from_url(url):
     return pd.read_csv(url, header=3)
 
 
-def to_postgres(pdf, name, engine):
-    pdf.to_sql(name, engine, index=False, if_exists='replace')
-
-
-def get_full_table_name(schema_name, table_name):
-    return schema_name + "." + table_name
+def to_postgres(pdf, engine, name, schema=None):
+    pdf.to_sql(name, engine, index=False, if_exists='replace', schema=schema)
 
 
 def test_print_dataframe(pandas_data_frame):
@@ -26,8 +22,7 @@ def test_print_dataframe(pandas_data_frame):
 
 def run():
     pdf = read_csv_from_url(url)
-    full_table_name = get_full_table_name(schema_name, table_name)
-    to_postgres(pdf, full_table_name, engine)
+    to_postgres(pdf, engine, table_name, schema_name)
 
 
 run()
