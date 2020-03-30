@@ -7,6 +7,8 @@ from secret import conn_str
 
 # I don't know the property for this. Maybe you can also make it insert into a specific schema?
 engine = create_engine(conn_str())
+schema_name = 'external'
+
 
 def get_list_of_files_in_directory(dirName):
     return os.listdir(dirName)
@@ -24,12 +26,16 @@ def ddf_insert_to_postgres(ddf, tableName, engine):
     ddf.map_partition(lambda pdf: pdf.to_sql(tableName, engine, index=False, if_exists='append'))
 
 
+def get_table_name(filename):
+    return schema_name + "." + filename
+
 def run(dirName):
     for fileName in get_list_of_files_in_directory(dirName):
         if ".csv" in fileName:
             fullpath = get_full_path_to_file(dirName, fileName)
             ddf = read_csv_to_ddf(fullpath)
-            ddf_insert_to_postgres(ddf, fileName, engine)
+            ddf_insert_to_postgres(ddf, get_table_name(filename), engine)
+
 
 # - enter directory here - #
 run()
