@@ -2,10 +2,11 @@ import os
 import pandas as import pd
 import dask.dataframe as dd
 from sqlalchemy import create_engine
-
+####
+from secret import conn_str
 
 # I don't know the property for this. Maybe you can also make it insert into a specific schema?
-engine = create_engine()
+engine = create_engine(conn_str())
 
 def get_list_of_files_in_directory(dirName):
     return os.listdir(dirName)
@@ -30,5 +31,5 @@ def run(dirName):
             ddf = read_csv_to_ddf(fullpath)
             ddf_insert_to_postgres(ddf, fileName, engine)
 
-# ------
+# - enter directory here - #
 run()
