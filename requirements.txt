@@ -5,7 +5,7 @@ dask==2.13.0
 distributed==2.13.0
 fsspec==0.7.0
 HeapDict==1.0.1
-Jinja2==2.11.1
+Jinja2==2.11.3
 locket==0.2.0
 MarkupSafe==1.1.1
 msgpack==1.0.0
